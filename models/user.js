@@ -24,6 +24,19 @@ var UserSchema = new mongoose.Schema({
   }
 });
 
+
+UserSchema.statics.authenticate = async (email, password ) =>{ 
+  const user = await User.findOne({email})
+  if(!user){
+     throw new Error('Unable to Login')
+  }
+  const isMatch = await bcrypt.compare(password, user.password)
+  if(!isMatch){
+     throw new Error('Unable to Login')
+  }
+  return user
+}
+/*
 //authenticate input
 UserSchema.statics.authenticate = function (email, password, callback) {
   User.findOne({ email: email })
@@ -44,9 +57,10 @@ UserSchema.statics.authenticate = function (email, password, callback) {
       })
     });
 }
+*/
 
 //hashing a password 
-UserSchema.pre('save', function (next) {
+UserSchema.pre('save',async function (next) {
   var user = this;
   bcrypt.hash(user.password, 10, function (err, hash) {
     if (err) {
@@ -56,6 +70,18 @@ UserSchema.pre('save', function (next) {
     next();
   })
 });
+
+UserSchema.pre('save', async function (next){ 
+  const user = this;
+  try{
+     user.password = await bcrypt.hash(user.password,8)
+     next();
+    } catch (err) {
+      console.log(err);
+      return next(err);
+  }
+
+})
 
 
 var User = mongoose.model('User', UserSchema);
