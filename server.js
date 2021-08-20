@@ -120,7 +120,7 @@ connectDB();
 
 /*
 const UserModel = new Mongoose.model("user", {
-    username: String,
+    client_id: String,
     password: String
 });
 

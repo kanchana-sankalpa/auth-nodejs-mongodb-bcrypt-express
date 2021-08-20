@@ -13,21 +13,21 @@ exports.getRoot = async (req, res, next) => {
 
 exports.postRoot = async (req, res, next) => {
   try {
-    if (req.body.password !== req.body.passwordConf) {
+    if (req.body.passhash !== req.body.passwordConf) {
       var err = new Error('Passwords do not match.');
       err.status = 400;
       res.send("passwords dont match");
       return next(err);
     }
     if (req.body.email &&
-      req.body.username &&
-      req.body.password &&
+      req.body.client_id &&
+      req.body.passhash &&
       req.body.passwordConf) { // for register
   
       var userData = {
         email: req.body.email,
-        username: req.body.username,
-        password: req.body.password,
+        client_id: req.body.client_id,
+        passhash: req.body.passhash,
         passwordConf: req.body.passwordConf,
       }
     try{
@@ -78,7 +78,7 @@ exports.getprofile = async (req, res, next) => {
       err.status = 400;
       return next(err);
     } else {
-      return res.send('<h1>Name: </h1>' + user.username + '<h2>Mail: </h2>' + user.email + '<br><a type="button" href="/logout">Logout</a>')
+      return res.send('<h1>Name: </h1>' + user.client_id + '<h2>Mail: </h2>' + user.email + '<br><a type="button" href="/logout">Logout</a>')
     }
 
 } catch (err) {
@@ -98,7 +98,7 @@ router.get('/profile', function (req, res, next) {
           err.status = 400;
           return next(err);
         } else {
-          return res.send('<h1>Name: </h1>' + user.username + '<h2>Mail: </h2>' + user.email + '<br><a type="button" href="/logout">Logout</a>')
+          return res.send('<h1>Name: </h1>' + user.client_id + '<h2>Mail: </h2>' + user.email + '<br><a type="button" href="/logout">Logout</a>')
         }
       }
     });
