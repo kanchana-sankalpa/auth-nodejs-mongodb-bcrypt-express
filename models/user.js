@@ -32,9 +32,11 @@ var UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  subscribe_acl: { type: mongoose.Schema.Types.Mixed, default: [
+    {pattern: '#'}
+  ] },
   publish_acl: { type: mongoose.Schema.Types.Mixed, default: [
-    {pattern: 'a/b/c'}, 
-    {pattern: 'a/+/d'}
+    {pattern: '#'}
   ] }
 }, { collection: 'vmq_acl_auth' });
 
