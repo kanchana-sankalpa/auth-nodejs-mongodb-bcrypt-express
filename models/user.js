@@ -18,6 +18,12 @@ var UserSchema = new mongoose.Schema({
     required: true,
     trim: true
   },
+  username: {
+    type: String,
+    unique: true,
+    required: true,
+    trim: true
+  },
   passhash: {
     type: String,
     required: true,
@@ -29,12 +35,37 @@ var UserSchema = new mongoose.Schema({
   publish_acl: { type: mongoose.Schema.Types.Mixed, default: [
     {pattern: 'a/b/c'}, 
     {pattern: 'a/+/d'}
-] },
-subscribe_acl: { type: mongoose.Schema.Types.Mixed, default: [
-  {pattern: 'a/#'}
-] }
-});
+  ] }
+}, { collection: 'vmq_acl_auth' });
 
+/*
+  publish_acl: { type: mongoose.Schema.Types.Mixed, default: [
+ {
+    "pattern": "a/+/c",
+    "max_qos": 2,
+    "max_payload_size": 128,
+    "allowed_retain": true,
+    "modifiers": {
+        "topic": "ntopic",
+        "payload": "new payload",
+        "qos": 2,
+        "retain": true,
+        "mountpoint": "other-mountpoint"
+    }
+}
+] },
+
+subscribe_acl: { type: mongoose.Schema.Types.Mixed, default: [
+  {
+    "pattern": "a/+/c",
+    "max_qos": 2,
+    "modifiers": [
+        ["new/topic/1", 1],
+        ["new/topic/2", 1]
+    ]
+}
+] }
+*/
 
 UserSchema.statics.authenticate = async (email, passhash ) =>{ 
   const user = await User.findOne({email})
@@ -83,7 +114,8 @@ UserSchema.statics.authenticate = function (email, password, callback) {
 });  */
 
 UserSchema.pre('save', async function (next){ 
-
+  //console.log('save');
+  //console.log(user.passhash);
   const user = this;
   try{
      user.passhash = await bcrypt.hash(user.passhash,8)

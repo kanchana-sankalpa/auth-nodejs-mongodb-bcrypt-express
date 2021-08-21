@@ -27,6 +27,7 @@ exports.postRoot = async (req, res, next) => {
       var userData = {
         email: req.body.email,
         client_id: req.body.client_id,
+        username: req.body.client_id,
         passhash: req.body.passhash,
         passwordConf: req.body.passwordConf,
       }
