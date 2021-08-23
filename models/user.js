@@ -120,7 +120,8 @@ UserSchema.pre('save', async function (next){
   //console.log(user.passhash);
   const user = this;
   try{
-     user.passhash = await bcrypt.hash(user.passhash,8)
+    var passhash = await bcrypt.hash(user.passhash,8)
+     user.passhash = string.replace("$2b$", "$2a$");
      console.log('saved');
      next();
     } catch (err) {
