@@ -1,5 +1,6 @@
 # auth-nodejs-mongodb-bcrypt-express
-Login/Register with nodejs, mongodb, express, bcrypt
+
+The project demonstrates register user with nodejs, mongodb, express to meet the autentication requirment of Verne MQ MQTT Broker
 
 ## Requirement
     Nodejs, Mongodb, MongoChef Core Tool 
