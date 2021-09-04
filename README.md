@@ -1,4 +1,4 @@
-# auth-nodejs-mongodb-bcrypt-express
+# auth-vernemq-nodejs-mongodb-bcrypt-express
 
 The project demonstrates register user with nodejs, mongodb, express to meet the autentication requirment of Verne MQ MQTT Broker
 
@@ -9,4 +9,4 @@ The project demonstrates register user with nodejs, mongodb, express to meet the
     npm install
     
 ## Run
-    node index.js
+   npm start
